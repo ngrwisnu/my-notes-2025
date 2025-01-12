@@ -1,5 +1,6 @@
 import { Archive, EllipsisVertical, Trash2 } from "lucide-react";
 import { Link } from "react-router";
+import { NoteObject } from "../../types/note";
 
 const menu = [
   {
@@ -13,14 +14,16 @@ const menu = [
   },
 ];
 
-const NoteCard = () => {
+const NoteCard = (props: NoteObject) => {
+  const { id, title, body, createdAt } = props;
+
   return (
     <div className="max-w-[320px] basis-auto rounded-lg border border-slate-700 p-4">
-      <Link to="/" className="w-full hover:bg-slate-100">
+      <Link to={`/detail/${id}`} className="w-full hover:bg-slate-100">
         {/* card header */}
         <div className="flex items-center justify-between gap-5">
           <div className="w-full">
-            <h6 className="text-xl font-medium">Card title</h6>
+            <h6 className="text-xl font-medium">{title}</h6>
           </div>
           <div className="relative flex h-10 w-10 items-center justify-center bg-transparent">
             <EllipsisVertical size={20} />
@@ -44,16 +47,11 @@ const NoteCard = () => {
         <hr />
 
         {/* card body */}
-        <div className="mt-3 text-pretty text-lg text-slate-500">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, cum
-          illum modi inventore possimus voluptatibus similique blanditiis iure
-          animi? Ratione, suscipit facere. Magni molestiae dolore, beatae iure
-          nesciunt ea accusamus?
-        </div>
+        <div className="mt-3 text-pretty text-lg text-slate-500">{body}</div>
 
         {/* card footer */}
         <div className="mt-3 flex justify-end">
-          <div className="text-base text-slate-500">3 days ago</div>
+          <div className="text-base text-slate-500">{createdAt}</div>
         </div>
       </Link>
     </div>

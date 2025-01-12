@@ -6,6 +6,12 @@ body {
   font-family: Poppins, "sans-serif";
 }
 
+@layer base {
+  input {
+    @apply bg-transparent py-3 text-lg outline-none;
+  }
+}
+
 @layer utilities {
   .container {
     @apply mx-auto w-full max-w-[1200px];

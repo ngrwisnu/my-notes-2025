@@ -55,7 +55,16 @@ function saveNotesToStorage(key: string, notes: NoteObject[]) {
   localStorage.setItem(key, JSON.stringify(notes));
 }
 
-function setInitialNotes(): NoteObject[] {
+export function findByKeyword(
+  notes: NoteObject[],
+  keyword: string,
+): NoteObject[] {
+  return notes.filter((note) =>
+    note.title.toLowerCase().includes(keyword.toLowerCase()),
+  );
+}
+
+export function setInitialNotes(): NoteObject[] {
   const notes = localStorage.getItem("notes");
 
   if (!notes) {
@@ -66,13 +75,13 @@ function setInitialNotes(): NoteObject[] {
   return JSON.parse(notes);
 }
 
-function getAllNotes(): NoteObject[] {
+export function getAllNotes(): NoteObject[] {
   const notes = getNotesFromStorage();
 
   return notes;
 }
 
-function getNote(id: string) {
+export function getNote(id: string) {
   const notes = getNotesFromStorage();
 
   const foundedNote = notes.find((note) => note.id === id);
@@ -80,7 +89,7 @@ function getNote(id: string) {
   return foundedNote;
 }
 
-function getActiveNotes() {
+export function getActiveNotes() {
   const notes = getNotesFromStorage();
 
   const activeNotes = notes.filter((note) => !note.archived);
@@ -88,7 +97,7 @@ function getActiveNotes() {
   return activeNotes;
 }
 
-function getArchivedNotes() {
+export function getArchivedNotes() {
   const notes = getNotesFromStorage();
 
   const archivedNotes = notes.filter((note) => note.archived);
@@ -96,7 +105,7 @@ function getArchivedNotes() {
   return archivedNotes;
 }
 
-function addNote({ title, body }: { title: string; body: string }) {
+export function addNote({ title, body }: { title: string; body: string }) {
   let notes = getNotesFromStorage();
 
   notes = [
@@ -113,7 +122,7 @@ function addNote({ title, body }: { title: string; body: string }) {
   saveNotesToStorage("notes", notes);
 }
 
-function deleteNote(id: string) {
+export function deleteNote(id: string) {
   let notes = getNotesFromStorage();
 
   notes = notes.filter((note) => note.id !== id);
@@ -121,7 +130,7 @@ function deleteNote(id: string) {
   saveNotesToStorage("notes", notes);
 }
 
-function archiveNote(id: string) {
+export function archiveNote(id: string) {
   let notes = getNotesFromStorage();
 
   notes = notes.map((note) => {
@@ -134,7 +143,7 @@ function archiveNote(id: string) {
   saveNotesToStorage("notes", notes);
 }
 
-function unarchiveNote(id: string) {
+export function unarchiveNote(id: string) {
   let notes = getNotesFromStorage();
 
   notes = notes.map((note) => {
@@ -148,7 +157,7 @@ function unarchiveNote(id: string) {
   saveNotesToStorage("notes", notes);
 }
 
-function editNote({
+export function editNote({
   id,
   title,
   body,
@@ -175,16 +184,3 @@ function editNote({
 
   localStorage.setItem("notes", JSON.stringify(notes));
 }
-
-export {
-  getAllNotes,
-  getActiveNotes,
-  getArchivedNotes,
-  deleteNote,
-  editNote,
-  getNote,
-  archiveNote,
-  unarchiveNote,
-  addNote,
-  setInitialNotes,
-};
