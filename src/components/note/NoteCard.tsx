@@ -20,9 +20,9 @@ const NoteCard = (props: NoteCardProps) => {
   };
 
   return (
-    <div className="max-w-[320px] basis-auto rounded-lg border border-slate-700 p-4">
+    <div className="w-full rounded-lg border bg-[#F5EFFF] p-4 sm:max-w-[320px]">
       <Link
-        to={`/detail/${id}`}
+        to={`/note/${id}`}
         onClick={linkHandler}
         className="w-full hover:bg-slate-100"
       >
@@ -33,7 +33,7 @@ const NoteCard = (props: NoteCardProps) => {
           </div>
           <div className="relative z-10 flex h-10 items-center justify-center">
             <button
-              className={`flex items-center gap-1 rounded-full border border-blue-400 ${archived ? "bg-blue-400" : "bg-transparent"} ${archived ? "text-white" : "text-black"} px-2 py-1 text-base`}
+              className={`flex items-center gap-1 rounded-full border border-blue-400 ${archived ? "bg-blue-400" : "bg-transparent"} ${archived ? "text-white" : "text-black"} py-1 pl-2 pr-3 text-base`}
               onClick={(e: MouseEvent<HTMLElement>) => {
                 if (archiveHandler) {
                   archiveHandler(e, id);
@@ -50,7 +50,7 @@ const NoteCard = (props: NoteCardProps) => {
         <hr />
 
         {/* card body */}
-        <div className="mt-3 text-pretty text-lg text-slate-500">{body}</div>
+        <div className="mt-3 text-pretty text-lg text-slate-900">{body}</div>
 
         {/* card footer */}
         <div className="mt-3 flex justify-between">
@@ -63,7 +63,7 @@ const NoteCard = (props: NoteCardProps) => {
                 deleteHandler(e, id);
               }
             }}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100 text-red-500 hover:bg-red-500 hover:text-white"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-200 text-red-500 hover:bg-red-500 hover:text-white"
           >
             <Trash2 size={20} />
           </button>

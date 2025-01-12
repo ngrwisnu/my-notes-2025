@@ -7,6 +7,7 @@ import Homepage from "./pages/Homepage";
 import NotFound from "./pages/NotFound";
 import Archive from "./pages/Archive";
 import { setInitialNotes } from "./utils/notes";
+import Details from "./pages/Details";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "archive",
         element: <Archive />,
+      },
+      {
+        path: "note/:id",
+        element: <Details />,
       },
       {
         path: "*",

@@ -34,14 +34,14 @@ const initialNotes = [
     title: "ESM",
     body: "ESM (ECMAScript Module) merupakan format modularisasi standar JavaScript.",
     createdAt: "2022-04-14T04:27:34.572Z",
-    archived: true, // default: false
+    archived: false,
   },
   {
     id: "notes-6",
     title: "Module Bundler",
     body: "Dalam konteks pemrograman JavaScript, module bundler merupakan tools yang digunakan untuk menggabungkan seluruh modul JavaScript yang digunakan oleh aplikasi menjadi satu berkas.",
     createdAt: "2022-04-14T04:27:34.572Z",
-    archived: true, // default: false
+    archived: false,
   },
 ];
 
@@ -208,4 +208,20 @@ export function formatCreatedAt(date: string): string {
   }
 
   return "just now";
+}
+
+export function formatDateToID(date: string | undefined) {
+  if (!date) {
+    return "";
+  }
+
+  const options: Record<string, string> = {
+    timeZone: "Asia/Jakarta",
+    year: "numeric",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  };
+
+  return new Date(date).toLocaleDateString("id-ID", options);
 }
