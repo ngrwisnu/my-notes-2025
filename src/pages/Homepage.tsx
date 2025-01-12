@@ -7,6 +7,7 @@ const Homepage = () => {
   return (
     <div className="container">
       <div className="flex flex-wrap gap-4">
+        {!notes.length && <p>There is no active notes yet!</p>}
         {notes.map((note) => (
           <NoteCard key={note.id} />
         ))}
