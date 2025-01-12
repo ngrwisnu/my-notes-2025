@@ -1,46 +1,40 @@
-import { Archive, EllipsisVertical, Trash2 } from "lucide-react";
+import { Archive, Check, Trash2 } from "lucide-react";
 import { Link } from "react-router";
-import { NoteObject } from "../../types/note";
+import { NoteCardProps } from "../../types/note";
+import { MouseEvent } from "react";
 
-const menu = [
-  {
-    text: "Archive",
-    icon: <Archive size={20} />,
-    linkTo: "/archive",
-  },
-  {
-    text: "Delete",
-    icon: <Trash2 size={20} />,
-  },
-];
+const NoteCard = (props: NoteCardProps) => {
+  const { id, title, body, createdAt, archived, archiveHandler } = props;
 
-const NoteCard = (props: NoteObject) => {
-  const { id, title, body, createdAt } = props;
+  const linkHandler = () => {
+    console.log("link clicked");
+  };
 
   return (
     <div className="max-w-[320px] basis-auto rounded-lg border border-slate-700 p-4">
-      <Link to={`/detail/${id}`} className="w-full hover:bg-slate-100">
+      <Link
+        to={`/detail/${id}`}
+        onClick={linkHandler}
+        className="w-full hover:bg-slate-100"
+      >
         {/* card header */}
-        <div className="flex items-center justify-between gap-5">
+        <div className="mb-3 flex items-start justify-between gap-5">
           <div className="w-full">
             <h6 className="text-xl font-medium">{title}</h6>
           </div>
-          <div className="relative flex h-10 w-10 items-center justify-center bg-transparent">
-            <EllipsisVertical size={20} />
-            <div className="absolute right-0 top-[calc(100%_+_16px)] gap-4 rounded-lg bg-white p-2 drop-shadow">
-              <div className="flex w-32 flex-col gap-4">
-                {menu.map((item) => (
-                  <Link
-                    key={item.text}
-                    to={(item.linkTo && item.linkTo) || "/"}
-                    className={`flex w-full gap-2 rounded px-4 py-2 hover:bg-slate-100 ${item.text === "Delete" && "hover:text-red-500"}`}
-                  >
-                    {item.icon}
-                    <div className="">{item.text}</div>
-                  </Link>
-                ))}
-              </div>
-            </div>
+          <div className="relative z-10 flex h-10 items-center justify-center">
+            <button
+              className={`flex items-center gap-1 rounded-full border border-blue-400 ${archived ? "bg-blue-400" : "bg-transparent"} ${archived ? "text-white" : "text-black"} px-2 py-1 text-base`}
+              onClick={(e: MouseEvent<HTMLElement>) => {
+                if (archiveHandler) {
+                  archiveHandler(e, id);
+                }
+              }}
+            >
+              {archived ? <Check size={18} /> : <Archive size={18} />}
+
+              {archived ? "Archived" : "Archive"}
+            </button>
           </div>
         </div>
 

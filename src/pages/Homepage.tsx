@@ -2,14 +2,19 @@
 
 import { Search } from "lucide-react";
 import NoteCard from "../components/note/NoteCard";
-import { findByKeyword, getActiveNotes } from "../utils/notes";
-import { ChangeEvent } from "react";
+import {
+  archiveNote,
+  findByKeyword,
+  getActiveNotes,
+  getNote,
+} from "../utils/notes";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import { useSearchParams } from "react-router";
+import { NoteObject } from "../types/note";
 
 const Homepage = () => {
+  const [noteList, setNoteList] = useState<NoteObject[]>(getActiveNotes());
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const notes = getActiveNotes();
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParams({
@@ -17,9 +22,22 @@ const Homepage = () => {
     });
   };
 
+  const archiveHandler = (e: MouseEvent<HTMLElement>, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const note = getNote(id) as NoteObject;
+
+    if (!note.archived) {
+      archiveNote(id);
+    }
+
+    setNoteList(getActiveNotes());
+  };
+
   const title = searchParams.get("title") || "";
 
-  const searchedNotes = findByKeyword(notes, title);
+  const searchedNotes = findByKeyword(noteList, title);
 
   return (
     <div className="container">
@@ -35,12 +53,12 @@ const Homepage = () => {
         />
       </div>
       <div className="flex flex-wrap gap-4">
-        {!notes.length && <p>There is no active notes yet!</p>}
-        {notes.length && !searchedNotes.length ? (
+        {!noteList.length && <p>There is no active notes yet!</p>}
+        {noteList.length && !searchedNotes.length ? (
           <p>Cannot find any notes</p>
         ) : null}
         {searchedNotes.map((note) => (
-          <NoteCard key={note.id} {...note} />
+          <NoteCard key={note.id} archiveHandler={archiveHandler} {...note} />
         ))}
       </div>
     </div>

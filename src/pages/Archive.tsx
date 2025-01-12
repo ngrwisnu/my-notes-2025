@@ -1,13 +1,19 @@
 import { Search } from "lucide-react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { useSearchParams } from "react-router";
-import { findByKeyword, getArchivedNotes } from "../utils/notes";
+import {
+  findByKeyword,
+  getArchivedNotes,
+  getNote,
+  unarchiveNote,
+} from "../utils/notes";
 import NoteCard from "../components/note/NoteCard";
+import { NoteObject } from "../types/note";
+import { MouseEvent } from "react";
 
 const Archive = () => {
+  const [noteList, setNoteList] = useState<NoteObject[]>(getArchivedNotes());
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const notes = getArchivedNotes();
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParams({
@@ -15,9 +21,22 @@ const Archive = () => {
     });
   };
 
+  const unArchiveNote = (e: MouseEvent<HTMLElement>, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const note = getNote(id);
+
+    if (note!.archived) {
+      unarchiveNote(id);
+    }
+
+    setNoteList(getArchivedNotes());
+  };
+
   const title = searchParams.get("title") || "";
 
-  const searchedNotes = findByKeyword(notes, title);
+  const searchedNotes = findByKeyword(noteList, title);
 
   return (
     <div className="container">
@@ -33,12 +52,12 @@ const Archive = () => {
         />
       </div>
       <div className="flex flex-wrap gap-4">
-        {!notes.length && <p>Archive is empty!</p>}
-        {notes.length && !searchedNotes.length ? (
+        {!noteList.length && <p>Archive is empty!</p>}
+        {noteList.length && !searchedNotes.length ? (
           <p>Cannot find any notes</p>
         ) : null}
         {searchedNotes.map((note) => (
-          <NoteCard key={note.id} {...note} />
+          <NoteCard key={note.id} archiveHandler={unArchiveNote} {...note} />
         ))}
       </div>
     </div>
