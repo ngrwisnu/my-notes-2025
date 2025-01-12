@@ -2,9 +2,18 @@ import { Archive, Check, Trash2 } from "lucide-react";
 import { Link } from "react-router";
 import { NoteCardProps } from "../../types/note";
 import { MouseEvent } from "react";
+import { formatCreatedAt } from "../../utils/notes";
 
 const NoteCard = (props: NoteCardProps) => {
-  const { id, title, body, createdAt, archived, archiveHandler } = props;
+  const {
+    id,
+    title,
+    body,
+    createdAt,
+    archived,
+    archiveHandler,
+    deleteHandler,
+  } = props;
 
   const linkHandler = () => {
     console.log("link clicked");
@@ -44,8 +53,20 @@ const NoteCard = (props: NoteCardProps) => {
         <div className="mt-3 text-pretty text-lg text-slate-500">{body}</div>
 
         {/* card footer */}
-        <div className="mt-3 flex justify-end">
-          <div className="text-base text-slate-500">{createdAt}</div>
+        <div className="mt-3 flex justify-between">
+          <div className="text-base text-slate-500">
+            {formatCreatedAt(createdAt)}
+          </div>
+          <button
+            onClick={(e) => {
+              if (deleteHandler) {
+                deleteHandler(e, id);
+              }
+            }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100 text-red-500 hover:bg-red-500 hover:text-white"
+          >
+            <Trash2 size={20} />
+          </button>
         </div>
       </Link>
     </div>

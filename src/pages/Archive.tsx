@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { useSearchParams } from "react-router";
 import {
+  deleteNote,
   findByKeyword,
   getArchivedNotes,
   getNote,
@@ -34,6 +35,14 @@ const Archive = () => {
     setNoteList(getArchivedNotes());
   };
 
+  const deleteHandler = (e: MouseEvent<HTMLElement>, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    deleteNote(id);
+    setNoteList(getArchivedNotes());
+  };
+
   const title = searchParams.get("title") || "";
 
   const searchedNotes = findByKeyword(noteList, title);
@@ -57,7 +66,12 @@ const Archive = () => {
           <p>Cannot find any notes</p>
         ) : null}
         {searchedNotes.map((note) => (
-          <NoteCard key={note.id} archiveHandler={unArchiveNote} {...note} />
+          <NoteCard
+            key={note.id}
+            archiveHandler={unArchiveNote}
+            deleteHandler={deleteHandler}
+            {...note}
+          />
         ))}
       </div>
     </div>

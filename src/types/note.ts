@@ -10,4 +10,5 @@ export interface NoteObject {
 
 export interface NoteCardProps extends NoteObject {
   archiveHandler?: (e: MouseEvent<HTMLElement>, id: string) => void;
+  deleteHandler?: (e: MouseEvent<HTMLElement>, id: string) => void;
 }

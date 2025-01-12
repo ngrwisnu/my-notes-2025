@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import NoteCard from "../components/note/NoteCard";
 import {
   archiveNote,
+  deleteNote,
   findByKeyword,
   getActiveNotes,
   getNote,
@@ -35,6 +36,14 @@ const Homepage = () => {
     setNoteList(getActiveNotes());
   };
 
+  const deleteHandler = (e: MouseEvent<HTMLElement>, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    deleteNote(id);
+    setNoteList(getActiveNotes());
+  };
+
   const title = searchParams.get("title") || "";
 
   const searchedNotes = findByKeyword(noteList, title);
@@ -58,7 +67,12 @@ const Homepage = () => {
           <p>Cannot find any notes</p>
         ) : null}
         {searchedNotes.map((note) => (
-          <NoteCard key={note.id} archiveHandler={archiveHandler} {...note} />
+          <NoteCard
+            key={note.id}
+            deleteHandler={deleteHandler}
+            archiveHandler={archiveHandler}
+            {...note}
+          />
         ))}
       </div>
     </div>
