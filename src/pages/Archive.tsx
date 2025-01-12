@@ -1,15 +1,13 @@
-"use client";
-
 import { Search } from "lucide-react";
-import NoteCard from "../components/note/NoteCard";
-import { findByKeyword, getActiveNotes } from "../utils/notes";
 import { ChangeEvent } from "react";
 import { useSearchParams } from "react-router";
+import { findByKeyword, getArchivedNotes } from "../utils/notes";
+import NoteCard from "../components/note/NoteCard";
 
-const Homepage = () => {
+const Archive = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const notes = getActiveNotes();
+  const notes = getArchivedNotes();
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParams({
@@ -23,7 +21,7 @@ const Homepage = () => {
 
   return (
     <div className="container">
-      <h1 className="mb-6 text-4xl font-semibold">Active Notes</h1>
+      <h1 className="mb-6 text-4xl font-semibold">Archived Notes</h1>
       <div className="mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4">
         <Search size={20} />
         <input
@@ -35,7 +33,7 @@ const Homepage = () => {
         />
       </div>
       <div className="flex flex-wrap gap-4">
-        {!notes.length && <p>There is no active notes yet!</p>}
+        {!notes.length && <p>Archive is empty!</p>}
         {notes.length && !searchedNotes.length ? (
           <p>Cannot find any notes</p>
         ) : null}
@@ -47,4 +45,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Archive;

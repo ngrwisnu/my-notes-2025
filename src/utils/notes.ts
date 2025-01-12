@@ -34,25 +34,25 @@ const initialNotes = [
     title: "ESM",
     body: "ESM (ECMAScript Module) merupakan format modularisasi standar JavaScript.",
     createdAt: "2022-04-14T04:27:34.572Z",
-    archived: false,
+    archived: true, // default: false
   },
   {
     id: "notes-6",
     title: "Module Bundler",
     body: "Dalam konteks pemrograman JavaScript, module bundler merupakan tools yang digunakan untuk menggabungkan seluruh modul JavaScript yang digunakan oleh aplikasi menjadi satu berkas.",
     createdAt: "2022-04-14T04:27:34.572Z",
-    archived: false,
+    archived: true, // default: false
   },
 ];
 
 function getNotesFromStorage(): NoteObject[] {
-  const notes = localStorage.getItem("notes");
+  const notes = sessionStorage.getItem("notes");
 
   return notes ? JSON.parse(notes) : [];
 }
 
 function saveNotesToStorage(key: string, notes: NoteObject[]) {
-  localStorage.setItem(key, JSON.stringify(notes));
+  sessionStorage.setItem(key, JSON.stringify(notes));
 }
 
 export function findByKeyword(
@@ -65,14 +65,14 @@ export function findByKeyword(
 }
 
 export function setInitialNotes(): NoteObject[] {
-  const notes = localStorage.getItem("notes");
+  const notes = getNotesFromStorage();
 
-  if (!notes) {
-    localStorage.setItem("notes", JSON.stringify(initialNotes));
+  if (!notes.length) {
+    saveNotesToStorage("notes", initialNotes);
     return initialNotes;
   }
 
-  return JSON.parse(notes);
+  return notes;
 }
 
 export function getAllNotes(): NoteObject[] {
@@ -182,5 +182,5 @@ export function editNote({
     return note;
   });
 
-  localStorage.setItem("notes", JSON.stringify(notes));
+  sessionStorage.setItem("notes", JSON.stringify(notes));
 }

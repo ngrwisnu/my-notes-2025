@@ -5,15 +5,25 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import RootLayout from "./layouts/RootLayout";
 import Homepage from "./pages/Homepage";
 import NotFound from "./pages/NotFound";
+import Archive from "./pages/Archive";
+import { setInitialNotes } from "./utils/notes";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    loader: () => {
+      setInitialNotes();
+      return 1;
+    },
     children: [
       {
         index: true,
         element: <Homepage />,
+      },
+      {
+        path: "archive",
+        element: <Archive />,
       },
       {
         path: "*",
