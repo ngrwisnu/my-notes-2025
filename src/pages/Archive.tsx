@@ -39,8 +39,12 @@ const Archive = () => {
     e.stopPropagation();
     e.preventDefault();
 
-    deleteNote(id);
-    setNoteList(getArchivedNotes());
+    const confirmStatus = confirm("Are you sure want to delete this note?");
+
+    if (confirmStatus) {
+      deleteNote(id);
+      setNoteList(getArchivedNotes());
+    }
   };
 
   const title = searchParams.get("title") || "";

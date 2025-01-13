@@ -105,7 +105,7 @@ export function getArchivedNotes() {
   return archivedNotes;
 }
 
-export function addNote({ title, body }: { title: string; body: string }) {
+export function addNote({ title, body }: { title?: string; body: string }) {
   let notes = getNotesFromStorage();
 
   notes = [

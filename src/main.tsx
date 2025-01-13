@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import Archive from "./pages/Archive";
 import { setInitialNotes } from "./utils/notes";
 import Details from "./pages/Details";
+import AddNoteForm from "./pages/AddNoteForm";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "note/:id",
         element: <Details />,
+      },
+      {
+        path: "notes/new",
+        element: <AddNoteForm />,
       },
       {
         path: "*",

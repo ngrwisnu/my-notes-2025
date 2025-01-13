@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { NoteCardProps } from "../../types/note";
 import { MouseEvent } from "react";
 import { formatCreatedAt } from "../../utils/notes";
+import parse from "html-react-parser";
 
 const NoteCard = (props: NoteCardProps) => {
   const {
@@ -50,7 +51,9 @@ const NoteCard = (props: NoteCardProps) => {
         <hr />
 
         {/* card body */}
-        <div className="mt-3 text-pretty text-lg text-slate-900">{body}</div>
+        <div className="mt-3 text-pretty text-lg text-slate-900">
+          {parse(body)}
+        </div>
 
         {/* card footer */}
         <div className="mt-3 flex justify-between">

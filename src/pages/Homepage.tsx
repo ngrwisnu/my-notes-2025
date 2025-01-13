@@ -40,8 +40,12 @@ const Homepage = () => {
     e.stopPropagation();
     e.preventDefault();
 
-    deleteNote(id);
-    setNoteList(getActiveNotes());
+    const confirmStatus = confirm("Are you sure want to delete this note?");
+
+    if (confirmStatus) {
+      deleteNote(id);
+      setNoteList(getActiveNotes());
+    }
   };
 
   const title = searchParams.get("title") || "";
