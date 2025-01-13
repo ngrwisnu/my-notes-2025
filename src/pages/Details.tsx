@@ -18,19 +18,21 @@ const Details = () => {
       <div className="mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3">
         <DetailWrapper>
           <DetailTitle text="Title" />
-          <DetailDescription text={note?.title || ""} />
+          <DetailDescription text={note?.title || "-"} />
         </DetailWrapper>
         <DetailWrapper>
           <DetailTitle text="Description" />
-          <DetailDescription text={note?.body || ""} />
+          <DetailDescription text={note?.body || "-"} />
         </DetailWrapper>
         <DetailWrapper>
           <DetailTitle text="Created at" />
-          <DetailDescription text={formatDateToID(note?.createdAt)} />
+          <DetailDescription text={formatDateToID(note?.createdAt) || "-"} />
         </DetailWrapper>
         <DetailWrapper>
           <DetailTitle text="Status" />
-          <DetailDescription text={note?.archived ? "Archived" : "Active"} />
+          <DetailDescription
+            text={!note ? "-" : note.archived ? "Archived" : "Active"}
+          />
         </DetailWrapper>
       </div>
     </div>
