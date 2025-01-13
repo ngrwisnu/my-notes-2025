@@ -12,6 +12,7 @@ import {
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { useSearchParams } from "react-router";
 import { NoteObject } from "../types/note";
+import AddButtonFloat from "../components/AddButtonFloat";
 
 const Homepage = () => {
   const [noteList, setNoteList] = useState<NoteObject[]>(getActiveNotes());
@@ -53,7 +54,7 @@ const Homepage = () => {
   const searchedNotes = findByKeyword(noteList, title);
 
   return (
-    <div className="container">
+    <div className="container relative">
       <h1 className="mb-6 text-4xl font-semibold">Active Notes</h1>
       <div className="mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4">
         <Search size={20} />
@@ -79,6 +80,7 @@ const Homepage = () => {
           />
         ))}
       </div>
+      <AddButtonFloat />
     </div>
   );
 };

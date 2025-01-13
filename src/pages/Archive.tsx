@@ -11,6 +11,7 @@ import {
 import NoteCard from "../components/note/NoteCard";
 import { NoteObject } from "../types/note";
 import { MouseEvent } from "react";
+import AddButtonFloat from "../components/AddButtonFloat";
 
 const Archive = () => {
   const [noteList, setNoteList] = useState<NoteObject[]>(getArchivedNotes());
@@ -78,6 +79,7 @@ const Archive = () => {
           />
         ))}
       </div>
+      <AddButtonFloat />
     </div>
   );
 };
