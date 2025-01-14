@@ -1,14 +1,32 @@
-import { ReactNode } from "react";
+// import { ReactNode } from "react";
 import parse from "html-react-parser";
+import PropTypes from "prop-types";
 
-export const DetailWrapper = ({ children }: { children: ReactNode }) => {
+// @ts-expect-error used of prop-types
+const DetailWrapper = ({ children }) => {
   return <div className="">{children}</div>;
 };
 
-export const DetailTitle = ({ text }: { text: string }) => {
+// @ts-expect-error used of prop-types
+const DetailTitle = ({ text }) => {
   return <div className="text-lg font-semibold">{text}</div>;
 };
 
-export const DetailDescription = ({ text }: { text: string }) => {
+// @ts-expect-error used of prop-types
+const DetailDescription = ({ text }) => {
   return <div className="relative text-pretty">{parse(text)}</div>;
 };
+
+DetailWrapper.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+};
+
+DetailTitle.propTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+DetailDescription.propTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+export { DetailWrapper, DetailTitle, DetailDescription };

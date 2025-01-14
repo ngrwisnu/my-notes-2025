@@ -1,11 +1,13 @@
 import { Archive, Check, Trash2 } from "lucide-react";
 import { Link } from "react-router";
-import { NoteCardProps } from "../../types/note";
+// import { NoteCardProps } from "../../types/note";
 import { MouseEvent } from "react";
 import { formatCreatedAt } from "../../utils/notes";
 import parse from "html-react-parser";
+import PropTypes from "prop-types";
 
-const NoteCard = (props: NoteCardProps) => {
+// @ts-expect-error used of prop-types
+const NoteCard = (props) => {
   const {
     id,
     title,
@@ -16,17 +18,9 @@ const NoteCard = (props: NoteCardProps) => {
     deleteHandler,
   } = props;
 
-  const linkHandler = () => {
-    console.log("link clicked");
-  };
-
   return (
     <div className="w-full rounded-lg border bg-[#F5EFFF] p-4 sm:max-w-[320px]">
-      <Link
-        to={`/note/${id}`}
-        onClick={linkHandler}
-        className="w-full hover:bg-slate-100"
-      >
+      <Link to={`/note/${id}`} className="w-full hover:bg-slate-100">
         {/* card header */}
         <div className="mb-3 flex items-start justify-between gap-5">
           <div className="w-full">
@@ -74,6 +68,16 @@ const NoteCard = (props: NoteCardProps) => {
       </Link>
     </div>
   );
+};
+
+NoteCard.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  archived: PropTypes.bool.isRequired,
+  archiveHandler: PropTypes.func,
+  deleteHandler: PropTypes.func,
 };
 
 export default NoteCard;
