@@ -1,20 +1,44 @@
+"use client";
+
 import { Link } from "react-router";
 import FormInput from "../components/form/FormInput";
 import FormLabel from "../components/form/FormLabel";
 import AuthPageLayout from "../layouts/AuthPageLayout";
 import FormItem from "../components/form/FormItem";
+import useInput from "../hooks/useInput";
+import { FormEvent } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useInput("");
+  const [password, setPassword] = useInput("");
+
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data = {
+      email,
+      password,
+    };
+
+    console.log(data);
+  };
+
   return (
     <AuthPageLayout>
       <h1 className="mt-6 text-center text-4xl font-semibold">Login</h1>
-      <form className="mt-4 flex flex-col gap-4 px-5 pb-6" action="">
+      <form
+        onSubmit={submitHandler}
+        className="mt-4 flex flex-col gap-4 px-5 pb-6"
+        action=""
+      >
         <FormItem>
           <FormLabel htmlFor="email">Email</FormLabel>
           <FormInput
             type="email"
             name="email"
             id="email"
+            value={email}
+            onChange={setEmail}
             placeholder="example@email.com"
             className="bg-slate-100"
             required
@@ -26,6 +50,8 @@ const Login = () => {
             type="password"
             name="password"
             id="password"
+            value={password}
+            onChange={setPassword}
             className="bg-slate-100"
             required
           />

@@ -3,20 +3,46 @@ import FormInput from "../components/form/FormInput";
 import FormLabel from "../components/form/FormLabel";
 import AuthPageLayout from "../layouts/AuthPageLayout";
 import FormItem from "../components/form/FormItem";
+import useInput from "../hooks/useInput";
+import { FormEvent } from "react";
 
 const SignUp = () => {
+  const [name, setName] = useInput("");
+  const [email, setEmail] = useInput("");
+  const [password, setPassword] = useInput("");
+  const [confirmPassword, setConfirmPassword] = useInput("");
+
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data = {
+      name,
+      email,
+      password,
+      confirmPassword,
+    };
+
+    console.log(data);
+  };
+
   return (
     <AuthPageLayout>
       <h1 className="mt-6 text-center text-4xl font-semibold">
         Start your journey here
       </h1>
-      <form className="mt-4 flex flex-col gap-4 px-5 pb-6" action="">
+      <form
+        onSubmit={submitHandler}
+        className="mt-4 flex flex-col gap-4 px-5 pb-6"
+        action=""
+      >
         <FormItem>
           <FormLabel htmlFor="name">Name</FormLabel>
           <FormInput
             type="text"
             name="name"
             id="name"
+            value={name}
+            onChange={setName}
             placeholder="John Doe"
             className="bg-slate-100"
             required
@@ -28,6 +54,8 @@ const SignUp = () => {
             type="email"
             name="email"
             id="email"
+            value={email}
+            onChange={setEmail}
             placeholder="example@email.com"
             className="bg-slate-100"
             required
@@ -39,16 +67,20 @@ const SignUp = () => {
             type="password"
             name="password"
             id="password"
+            value={password}
+            onChange={setPassword}
             className="bg-slate-100"
             required
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="password">Confirm Password</FormLabel>
+          <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
           <FormInput
             type="password"
-            name="password"
-            id="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={setConfirmPassword}
             className="bg-slate-100"
             required
           />
