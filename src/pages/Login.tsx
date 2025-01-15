@@ -2,13 +2,14 @@ import { Link } from "react-router";
 import FormInput from "../components/form/FormInput";
 import FormLabel from "../components/form/FormLabel";
 import AuthPageLayout from "../layouts/AuthPageLayout";
+import FormItem from "../components/form/FormItem";
 
 const Login = () => {
   return (
     <AuthPageLayout>
       <h1 className="mt-6 text-center text-4xl font-semibold">Login</h1>
       <form className="mt-4 flex flex-col gap-4 px-5 pb-6" action="">
-        <div className="flex flex-col gap-1">
+        <FormItem>
           <FormLabel htmlFor="email">Email</FormLabel>
           <FormInput
             type="email"
@@ -18,8 +19,8 @@ const Login = () => {
             className="bg-slate-100"
             required
           />
-        </div>
-        <div className="flex flex-col gap-1">
+        </FormItem>
+        <FormItem>
           <FormLabel htmlFor="password">Password</FormLabel>
           <FormInput
             type="password"
@@ -28,7 +29,7 @@ const Login = () => {
             className="bg-slate-100"
             required
           />
-        </div>
+        </FormItem>
         <button
           type="submit"
           className="ml-auto mt-6 flex w-full items-center justify-center gap-1 rounded bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
