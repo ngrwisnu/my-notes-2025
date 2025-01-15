@@ -9,6 +9,8 @@ import Archive from "./pages/Archive";
 import { setInitialNotes } from "./utils/notes";
 import Details from "./pages/Details";
 import AddNoteForm from "./pages/AddNoteForm";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
         element: <NotFound />,
       },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "signup",
+    element: <SignUp />,
   },
 ]);
 
