@@ -1,5 +1,6 @@
 import { LogOut } from "lucide-react";
 import { Link, NavLink } from "react-router";
+import DarkModeToggler from "./DarkModeToggler";
 
 const Navbar = () => {
   const logoutHandler = () => {
@@ -19,7 +20,8 @@ const Navbar = () => {
             <NavLink to="/">Home</NavLink>
             <NavLink to="/archive">Archive</NavLink>
           </nav>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
+            <DarkModeToggler />
             <div
               role="button"
               onClick={logoutHandler}
