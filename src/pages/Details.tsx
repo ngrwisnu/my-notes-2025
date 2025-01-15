@@ -1,5 +1,3 @@
-"use client";
-
 import { useParams } from "react-router";
 import { formatDateToID, getNote } from "../utils/notes";
 import {

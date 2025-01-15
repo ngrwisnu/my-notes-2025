@@ -1,5 +1,3 @@
-"use client";
-
 import { Link } from "react-router";
 import FormInput from "../components/form/FormInput";
 import FormLabel from "../components/form/FormLabel";

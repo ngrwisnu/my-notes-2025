@@ -1,5 +1,3 @@
-"use client";
-
 import { Search } from "lucide-react";
 import NoteCard from "../components/note/NoteCard";
 import {

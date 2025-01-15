@@ -1,5 +1,3 @@
-"use client";
-
 import { Plus } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import DOMPurify from "dompurify";
