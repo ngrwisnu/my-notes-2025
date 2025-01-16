@@ -4,11 +4,16 @@ import FormLabel from "../components/form/FormLabel";
 import AuthPageLayout from "../layouts/AuthPageLayout";
 import FormItem from "../components/form/FormItem";
 import useInput from "../hooks/useInput";
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
+import { LocaleContext } from "../context/contexts";
+import contents from "../utils/contents";
+import { LocalType } from "../types/locale";
 
 const Login = () => {
   const [email, setEmail] = useInput("");
   const [password, setPassword] = useInput("");
+
+  const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,14 +28,18 @@ const Login = () => {
 
   return (
     <AuthPageLayout>
-      <h1 className="mt-6 text-center text-4xl font-semibold">Login</h1>
+      <h1 className="mt-6 text-center text-4xl font-semibold">
+        {contents.login.headline[locale]}
+      </h1>
       <form
         onSubmit={submitHandler}
         className="mt-4 flex flex-col gap-4 px-5 pb-6"
         action=""
       >
         <FormItem>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel htmlFor="email">
+            {contents.login.form.email[locale]}
+          </FormLabel>
           <FormInput
             type="email"
             name="email"
@@ -43,7 +52,9 @@ const Login = () => {
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="password">Password</FormLabel>
+          <FormLabel htmlFor="password">
+            {contents.login.form.password[locale]}
+          </FormLabel>
           <FormInput
             type="password"
             name="password"
@@ -58,16 +69,16 @@ const Login = () => {
           type="submit"
           className="ml-auto mt-6 flex w-full items-center justify-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
         >
-          Login
+          {contents.login.form.button[locale]}
         </button>
       </form>
       <div className="px-5">
-        Doesn't have an account?{" "}
+        {contents.login.form.label[locale]}{" "}
         <Link
           className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
           to="/signup"
         >
-          Register here
+          {contents.login.form.link[locale]}
         </Link>
       </div>
     </AuthPageLayout>

@@ -4,13 +4,18 @@ import FormLabel from "../components/form/FormLabel";
 import AuthPageLayout from "../layouts/AuthPageLayout";
 import FormItem from "../components/form/FormItem";
 import useInput from "../hooks/useInput";
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
+import { LocaleContext } from "../context/contexts";
+import { LocalType } from "../types/locale";
+import contents from "../utils/contents";
 
 const SignUp = () => {
   const [name, setName] = useInput("");
   const [email, setEmail] = useInput("");
   const [password, setPassword] = useInput("");
   const [confirmPassword, setConfirmPassword] = useInput("");
+
+  const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,8 +32,8 @@ const SignUp = () => {
 
   return (
     <AuthPageLayout>
-      <h1 className="mt-6 text-center text-4xl font-semibold">
-        Start your journey here
+      <h1 className="mx-auto mt-6 max-w-[80%] text-pretty text-center text-4xl font-semibold">
+        {contents.signup.headline[locale]}
       </h1>
       <form
         onSubmit={submitHandler}
@@ -36,7 +41,9 @@ const SignUp = () => {
         action=""
       >
         <FormItem>
-          <FormLabel htmlFor="name">Name</FormLabel>
+          <FormLabel htmlFor="name">
+            {contents.signup.form.name[locale]}
+          </FormLabel>
           <FormInput
             type="text"
             name="name"
@@ -49,7 +56,9 @@ const SignUp = () => {
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel htmlFor="email">
+            {contents.signup.form.email[locale]}
+          </FormLabel>
           <FormInput
             type="email"
             name="email"
@@ -62,7 +71,9 @@ const SignUp = () => {
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="password">Password</FormLabel>
+          <FormLabel htmlFor="password">
+            {contents.signup.form.password[locale]}
+          </FormLabel>
           <FormInput
             type="password"
             name="password"
@@ -74,7 +85,9 @@ const SignUp = () => {
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+          <FormLabel htmlFor="confirmPassword">
+            {contents.signup.form.confirm_password[locale]}
+          </FormLabel>
           <FormInput
             type="password"
             name="confirmPassword"
@@ -89,16 +102,16 @@ const SignUp = () => {
           type="submit"
           className="ml-auto mt-6 flex w-full items-center justify-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
         >
-          Sign up
+          {contents.signup.form.button[locale]}
         </button>
       </form>
       <div className="px-5">
-        Already have an account?{" "}
+        {contents.signup.form.label[locale]}{" "}
         <Link
           className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
           to="/login"
         >
-          Login here
+          {contents.signup.form.link[locale]}
         </Link>
       </div>
     </AuthPageLayout>
