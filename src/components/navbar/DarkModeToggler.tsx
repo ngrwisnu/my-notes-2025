@@ -1,11 +1,12 @@
 import { Moon, Sun } from "lucide-react";
-import { useState } from "react";
+import { useContext } from "react";
+import { ThemeContext } from "../../context/contexts";
 
 const DarkModeToggler = () => {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const darkModeHandler = () => {
-    setIsDark((prevState) => !prevState);
+    setTheme((prevState: string) => (prevState === "light" ? "dark" : "light"));
   };
 
   return (
@@ -14,11 +15,11 @@ const DarkModeToggler = () => {
       className="relative h-full w-20 rounded-full bg-slate-400 hover:cursor-pointer"
     >
       <div className="flex w-full items-center justify-between px-2 py-2">
-        <Sun size={16} />
         <Moon size={16} />
+        <Sun size={16} />
       </div>
       <div
-        className={`absolute top-0 z-30 h-8 w-8 scale-75 rounded-full bg-white transition-transform duration-300 ${isDark ? "translate-x-12" : "translate-x-0"}`}
+        className={`absolute top-0 z-30 h-8 w-8 scale-75 rounded-full bg-white transition-transform duration-300 ${theme === "dark" ? "translate-x-12" : "translate-x-0"}`}
       ></div>
     </div>
   );

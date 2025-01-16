@@ -11,6 +11,7 @@ import Details from "./pages/Details";
 import AddNoteForm from "./pages/AddNoteForm";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ContextProviders from "./context/ContextProviders";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ContextProviders>
+      <RouterProvider router={router} />
+    </ContextProviders>
   </StrictMode>,
 );
