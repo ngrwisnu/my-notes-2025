@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router";
 import DarkModeToggler from "./DarkModeToggler";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/contexts";
+import LanguageToggler from "./LanguageToggler";
 
 const Navbar = () => {
   const { theme } = useContext(ThemeContext);
@@ -29,6 +30,7 @@ const Navbar = () => {
             <NavLink to="/archive">Archive</NavLink>
           </nav>
           <div className="flex items-center gap-4">
+            <LanguageToggler />
             <DarkModeToggler />
             <div
               role="button"
