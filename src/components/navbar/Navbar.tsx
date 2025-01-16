@@ -2,11 +2,14 @@ import { LogOut } from "lucide-react";
 import { Link, NavLink } from "react-router";
 import DarkModeToggler from "./DarkModeToggler";
 import { useContext } from "react";
-import { ThemeContext } from "../../context/contexts";
+import { LocaleContext, ThemeContext } from "../../context/contexts";
 import LanguageToggler from "./LanguageToggler";
+import { LocalType } from "../../types/locale";
+import contents from "../../utils/contents";
 
 const Navbar = () => {
   const { theme } = useContext(ThemeContext);
+  const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
   const logoutHandler = () => {
     console.log("logout button is clicked");
@@ -26,8 +29,8 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-6">
           <nav className="space-x-6">
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/archive">Archive</NavLink>
+            <NavLink to="/">{contents.navbar.home[locale]}</NavLink>
+            <NavLink to="/archive">{contents.navbar.archive[locale]}</NavLink>
           </nav>
           <div className="flex items-center gap-4">
             <LanguageToggler />
@@ -37,7 +40,7 @@ const Navbar = () => {
               onClick={logoutHandler}
               className="flex items-center gap-1 rounded-lg border border-slate-900 px-3 py-2 transition duration-300 hover:cursor-pointer hover:bg-slate-700 hover:text-white dark:border-slate-100 dark:hover:border-slate-700"
             >
-              <LogOut size={20} /> Logout
+              <LogOut size={20} /> {contents.navbar.logout[locale]}
             </div>
           </div>
         </div>

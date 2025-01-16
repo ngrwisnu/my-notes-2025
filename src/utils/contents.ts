@@ -125,6 +125,10 @@ const contents = {
       id: "Keluar",
     },
   },
+  float_button: {
+    en: "Add new note",
+    id: "Tambah catatan baru",
+  },
 };
 
 export default contents;

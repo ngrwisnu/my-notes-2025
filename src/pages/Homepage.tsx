@@ -1,4 +1,3 @@
-import { Search } from "lucide-react";
 import NoteCard from "../components/note/NoteCard";
 import {
   archiveNote,
@@ -7,14 +6,20 @@ import {
   getActiveNotes,
   getNote,
 } from "../utils/notes";
-import { ChangeEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useContext, useState } from "react";
 import { useSearchParams } from "react-router";
 import { NoteObject } from "../types/note";
 import AddButtonFloat from "../components/AddButtonFloat";
+import { LocaleContext } from "../context/contexts";
+import { LocalType } from "../types/locale";
+import contents from "../utils/contents";
+import SearchField from "../components/SearchField";
 
 const Homepage = () => {
   const [noteList, setNoteList] = useState<NoteObject[]>(getActiveNotes());
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
   const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParams({
@@ -47,27 +52,20 @@ const Homepage = () => {
     }
   };
 
-  const title = searchParams.get("title") || "";
+  const keywords = searchParams.get("title") || "";
 
-  const searchedNotes = findByKeyword(noteList, title);
+  const searchedNotes = findByKeyword(noteList, keywords);
 
   return (
     <div className="container relative">
-      <h1 className="mb-6 text-4xl font-semibold">Active Notes</h1>
-      <div className="text-dark_purple-900 dark:bg-dark_surface-700 dark:text-dark_purple-100 mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4">
-        <Search size={20} />
-        <input
-          type="text"
-          value={title}
-          onChange={searchHandler}
-          className="ml-4 w-full bg-transparent"
-          placeholder="Search notes by title"
-        />
-      </div>
+      <h1 className="mb-6 text-4xl font-semibold">
+        {contents.homepage.headline[locale]}
+      </h1>
+      <SearchField keywords={keywords} changeHandler={searchHandler} />
       <div className="flex flex-wrap gap-4">
-        {!noteList.length && <p>There is no active notes yet!</p>}
+        {!noteList.length && <p>{contents.homepage.empty_notes[locale]}</p>}
         {noteList.length && !searchedNotes.length ? (
-          <p>Cannot find any notes</p>
+          <p>{contents.homepage.not_found[locale]}</p>
         ) : null}
         {searchedNotes.map((note) => (
           <NoteCard
