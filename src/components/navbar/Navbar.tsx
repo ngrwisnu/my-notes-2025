@@ -1,8 +1,12 @@
 import { LogOut } from "lucide-react";
 import { Link, NavLink } from "react-router";
 import DarkModeToggler from "./DarkModeToggler";
+import { useContext } from "react";
+import { ThemeContext } from "../../context/contexts";
 
 const Navbar = () => {
+  const { theme } = useContext(ThemeContext);
+
   const logoutHandler = () => {
     console.log("logout button is clicked");
   };
@@ -12,7 +16,11 @@ const Navbar = () => {
       <div className="container flex justify-between px-4 xl:px-0">
         <div className="text-4xl font-bold">
           <Link to="/">
-            <img src="/myNotes-dark.png" className="h-[52px]" alt="" />
+            <img
+              src={`/myNotes-${theme === "light" ? "dark" : "light"}.png`}
+              className="h-[52px]"
+              alt=""
+            />
           </Link>
         </div>
         <div className="flex items-center gap-6">
@@ -25,7 +33,7 @@ const Navbar = () => {
             <div
               role="button"
               onClick={logoutHandler}
-              className="flex items-center gap-1 rounded-lg border border-slate-900 px-3 py-2 transition duration-300 hover:cursor-pointer hover:bg-slate-700 hover:text-white"
+              className="flex items-center gap-1 rounded-lg border border-slate-900 px-3 py-2 transition duration-300 hover:cursor-pointer hover:bg-slate-700 hover:text-white dark:border-slate-100 dark:hover:border-slate-700"
             >
               <LogOut size={20} /> Logout
             </div>

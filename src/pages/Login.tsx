@@ -56,14 +56,17 @@ const Login = () => {
         </FormItem>
         <button
           type="submit"
-          className="ml-auto mt-6 flex w-full items-center justify-center gap-1 rounded bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
+          className="ml-auto mt-6 flex w-full items-center justify-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
         >
           Login
         </button>
       </form>
       <div className="px-5">
         Doesn't have an account?{" "}
-        <Link className="text-indigo-600 hover:text-indigo-700" to="/signup">
+        <Link
+          className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
+          to="/signup"
+        >
           Register here
         </Link>
       </div>

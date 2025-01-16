@@ -54,13 +54,13 @@ const Homepage = () => {
   return (
     <div className="container relative">
       <h1 className="mb-6 text-4xl font-semibold">Active Notes</h1>
-      <div className="mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4">
+      <div className="text-dark_purple-900 dark:bg-dark_surface-700 dark:text-dark_purple-100 mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4">
         <Search size={20} />
         <input
           type="text"
           value={title}
           onChange={searchHandler}
-          className="ml-4 w-full"
+          className="ml-4 w-full bg-transparent"
           placeholder="Search notes by title"
         />
       </div>

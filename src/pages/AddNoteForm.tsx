@@ -33,19 +33,19 @@ const AddNoteForm = () => {
   };
 
   return (
-    <div className="container">
+    <div className="dark:text-dark_purple-100 container">
       <h1 className="mb-6 w-full text-center text-4xl font-semibold">
         Add New Note
       </h1>
       <form
         onSubmit={submitHandler}
-        className="mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3"
+        className="dark:bg-dark_surface-900 mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3"
       >
         <div className="grid">
           <label htmlFor="title">Title</label>
           <input
             type="text"
-            className="rounded-lg bg-white p-2 text-lg"
+            className="dark:bg-dark_surface-700 dark:text-dark_purple-100 rounded-lg bg-white p-2 text-lg"
             onBlur={titleBlurHandler}
             name="title"
             id="title"
@@ -55,7 +55,7 @@ const AddNoteForm = () => {
         <div className="grid">
           <label htmlFor="body">Description</label>
           <div
-            className="rounded-lg bg-white p-2 text-lg text-slate-700"
+            className="dark:bg-dark_surface-700 dark:text-dark_purple-100 rounded-lg bg-white p-2 text-lg text-slate-700"
             onBlur={bodyBlurHandler}
             contentEditable
           ></div>

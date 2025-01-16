@@ -13,7 +13,7 @@ const Details = () => {
 
   return (
     <div className="container">
-      <div className="mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3">
+      <div className="text-dark_purple-900 dark:bg-dark_surface-900 dark:text-dark_purple-100 mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3">
         <DetailWrapper>
           <DetailTitle text="Title" />
           <DetailDescription text={note?.title || "-"} />

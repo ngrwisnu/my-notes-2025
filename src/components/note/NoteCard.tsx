@@ -1,13 +1,12 @@
 import { Archive, Check, Trash2 } from "lucide-react";
 import { Link } from "react-router";
-// import { NoteCardProps } from "../../types/note";
+import { NoteCardProps } from "../../types/note";
 import { MouseEvent } from "react";
 import { formatCreatedAt } from "../../utils/notes";
 import parse from "html-react-parser";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
-// @ts-expect-error used of prop-types
-const NoteCard = (props) => {
+const NoteCard = (props: NoteCardProps) => {
   const {
     id,
     title,
@@ -19,7 +18,7 @@ const NoteCard = (props) => {
   } = props;
 
   return (
-    <div className="w-full rounded-lg border bg-[#F5EFFF] p-4 sm:max-w-[320px]">
+    <div className="dark:bg-dark_surface-900 dark:text-dark_purple-100 text-dark_purple-900 w-full rounded-lg border bg-[#F5EFFF] p-4 sm:max-w-[320px] dark:border-none">
       <Link to={`/note/${id}`} className="w-full hover:bg-slate-100">
         {/* card header */}
         <div className="mb-3 flex items-start justify-between gap-5">
@@ -28,7 +27,7 @@ const NoteCard = (props) => {
           </div>
           <div className="relative z-10 flex h-10 items-center justify-center">
             <button
-              className={`flex items-center gap-1 rounded-full border border-blue-400 ${archived ? "bg-blue-400" : "bg-transparent"} ${archived ? "text-white" : "text-black"} py-1 pl-2 pr-3 text-base`}
+              className={`flex items-center gap-1 rounded-full border border-blue-400 ${archived ? "bg-blue-400" : "bg-transparent"} ${archived ? "text-white" : "text-inherit"} py-1 pl-2 pr-3 text-base`}
               onClick={(e: MouseEvent<HTMLElement>) => {
                 if (archiveHandler) {
                   archiveHandler(e, id);
@@ -45,9 +44,7 @@ const NoteCard = (props) => {
         <hr />
 
         {/* card body */}
-        <div className="mt-3 text-pretty text-lg text-slate-900">
-          {parse(body)}
-        </div>
+        <div className="mt-3 text-pretty text-lg">{parse(body)}</div>
 
         {/* card footer */}
         <div className="mt-3 flex justify-between">
@@ -70,14 +67,14 @@ const NoteCard = (props) => {
   );
 };
 
-NoteCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  archived: PropTypes.bool.isRequired,
-  archiveHandler: PropTypes.func,
-  deleteHandler: PropTypes.func,
-};
+// NoteCard.propTypes = {
+//   id: PropTypes.string.isRequired,
+//   title: PropTypes.string.isRequired,
+//   body: PropTypes.string.isRequired,
+//   createdAt: PropTypes.string.isRequired,
+//   archived: PropTypes.bool.isRequired,
+//   archiveHandler: PropTypes.func,
+//   deleteHandler: PropTypes.func,
+// };
 
 export default NoteCard;
