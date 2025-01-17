@@ -25,12 +25,11 @@ const callAPI = async ({
     headers,
     body: JSON.stringify(body),
   });
+  const responseJson = await response.json();
 
   if (!response.ok) {
-    return { isError: true, data: null };
+    return { isError: true, message: responseJson.message };
   }
-
-  const responseJson = await response.json();
 
   return { isError: false, data: responseJson.data };
 };

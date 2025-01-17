@@ -31,12 +31,12 @@ const Login = () => {
 
     const result = await login(data);
 
-    if (result.isError) {
-      setErrorMessage("Email or password is wrong");
+    if (result?.isError) {
+      setErrorMessage(result.message);
       return;
     }
 
-    putAccessToken(result.data.accessToken);
+    putAccessToken(result?.data.accessToken);
     setLoading(false);
     navigate("/");
   };
