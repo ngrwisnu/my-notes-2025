@@ -1,29 +1,44 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import FormInput from "../components/form/FormInput";
 import FormLabel from "../components/form/FormLabel";
 import AuthPageLayout from "../layouts/AuthPageLayout";
 import FormItem from "../components/form/FormItem";
 import useInput from "../hooks/useInput";
-import { FormEvent, useContext } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { LocaleContext } from "../context/contexts";
 import contents from "../utils/contents";
 import { LocalType } from "../types/locale";
+import { login, putAccessToken } from "../utils/api/lib";
 
 const Login = () => {
   const [email, setEmail] = useInput("");
   const [password, setPassword] = useInput("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const data = {
       email,
       password,
     };
 
-    console.log(data);
+    const result = await login(data);
+
+    if (result.isError) {
+      setErrorMessage("Email or password is wrong");
+      return;
+    }
+
+    putAccessToken(result.data.accessToken);
+    setLoading(false);
+    navigate("/");
   };
 
   return (
@@ -34,8 +49,12 @@ const Login = () => {
       <form
         onSubmit={submitHandler}
         className="mt-4 flex flex-col gap-4 px-5 pb-6"
-        action=""
       >
+        {errorMessage && (
+          <div className="w-full rounded-lg bg-rose-200 py-4">
+            <div className="text-center text-red-800">{errorMessage}</div>
+          </div>
+        )}
         <FormItem>
           <FormLabel htmlFor="email">
             {contents.login.form.email[locale]}
@@ -68,6 +87,7 @@ const Login = () => {
         <button
           type="submit"
           className="ml-auto mt-6 flex w-full items-center justify-center gap-1 rounded-lg bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
+          disabled={loading}
         >
           {contents.login.form.button[locale]}
         </button>
