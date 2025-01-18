@@ -1,5 +1,5 @@
 import { LogOut } from "lucide-react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import DarkModeToggler from "./DarkModeToggler";
 import { useContext } from "react";
 import { LocaleContext, ThemeContext } from "../../context/contexts";
@@ -11,8 +11,11 @@ const Navbar = () => {
   const { theme } = useContext(ThemeContext);
   const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
+  const navigate = useNavigate();
+
   const logoutHandler = () => {
-    console.log("logout button is clicked");
+    localStorage.removeItem("accessToken");
+    navigate("/login");
   };
 
   return (
