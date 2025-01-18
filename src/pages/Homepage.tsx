@@ -1,8 +1,6 @@
-import NoteCard from "../components/note/NoteCard";
 import {
   archiveNote,
   deleteNote,
-  findByKeyword,
   getActiveNotes,
   getNote,
 } from "../utils/notes";
@@ -14,6 +12,7 @@ import { LocaleContext } from "../context/contexts";
 import { LocalType } from "../types/locale";
 import contents from "../utils/contents";
 import SearchField from "../components/SearchField";
+import NoteWrapper from "../components/note/NoteWrapper";
 
 const Homepage = () => {
   const [noteList, setNoteList] = useState<NoteObject[]>(getActiveNotes());
@@ -54,28 +53,19 @@ const Homepage = () => {
 
   const keywords = searchParams.get("title") || "";
 
-  const searchedNotes = findByKeyword(noteList, keywords);
-
   return (
     <div className="container relative">
       <h1 className="mb-6 text-4xl font-semibold">
         {contents.homepage.headline[locale]}
       </h1>
       <SearchField keywords={keywords} changeHandler={searchHandler} />
-      <div className="flex flex-wrap gap-4">
-        {!noteList.length && <p>{contents.homepage.empty_notes[locale]}</p>}
-        {noteList.length && !searchedNotes.length ? (
-          <p>{contents.homepage.not_found[locale]}</p>
-        ) : null}
-        {searchedNotes.map((note) => (
-          <NoteCard
-            key={note.id}
-            deleteHandler={deleteHandler}
-            archiveHandler={archiveHandler}
-            {...note}
-          />
-        ))}
-      </div>
+      <NoteWrapper
+        keywords={keywords}
+        notes={noteList}
+        contents={contents.homepage}
+        archiveHandler={archiveHandler}
+        deleteHandler={deleteHandler}
+      />
       <AddButtonFloat />
     </div>
   );
