@@ -1,25 +1,30 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, redirect, RouterProvider } from "react-router";
 import RootLayout from "./layouts/RootLayout";
 import Homepage from "./pages/Homepage";
 import NotFound from "./pages/NotFound";
 import Archive from "./pages/Archive";
-import { setInitialNotes } from "./utils/notes";
 import Details from "./pages/Details";
 import AddNoteForm from "./pages/AddNoteForm";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ContextProviders from "./context/ContextProviders";
+import { getUserLogged } from "./utils/api/lib";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    loader: () => {
-      setInitialNotes();
-      return 1;
+    loader: async () => {
+      const result = await getUserLogged();
+
+      if (result.isError) {
+        return redirect("/login");
+      } else {
+        return 1;
+      }
     },
     children: [
       {
@@ -47,10 +52,28 @@ const router = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+    loader: async () => {
+      const result = await getUserLogged();
+
+      if (result.data) {
+        return redirect("/");
+      } else {
+        return 1;
+      }
+    },
   },
   {
     path: "signup",
     element: <SignUp />,
+    loader: async () => {
+      const result = await getUserLogged();
+
+      if (result.data) {
+        return redirect("/");
+      } else {
+        return 1;
+      }
+    },
   },
 ]);
 
