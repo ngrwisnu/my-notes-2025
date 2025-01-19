@@ -7,12 +7,19 @@ import contents from "../utils/contents";
 import SearchField from "../components/SearchField";
 import NoteWrapper from "../components/note/NoteWrapper";
 import useCallAPI from "../hooks/useCallAPI";
-import { archiveNote, deleteNote, getActiveNotes } from "../utils/api/lib";
+import {
+  archiveNote,
+  deleteNote,
+  getActiveNotes,
+  getUserLogged,
+} from "../utils/api/lib";
 import Loading from "../components/Loading";
+import { UserType } from "../types/user";
 
 const Homepage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: noteList, loading, refetch } = useCallAPI(getActiveNotes);
+  const { data: user } = useCallAPI<UserType>(getUserLogged);
 
   const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
@@ -51,9 +58,18 @@ const Homepage = () => {
   };
 
   const keywords = searchParams.get("title") || "";
+  console.log(user);
 
   return (
     <div className="container relative">
+      <div className="mb-8">
+        <div className="text-2xl">
+          {locale === "en" ? "Hi" : "Halo"}, {user?.name}
+        </div>
+        <div className="text-2xl">
+          {locale === "en" ? "Ready to write notes?" : "Siap menulis catatan?"}
+        </div>
+      </div>
       <h1 className="mb-6 text-4xl font-semibold">
         {contents.homepage.headline[locale]}
       </h1>

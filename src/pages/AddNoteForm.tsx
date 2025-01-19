@@ -6,6 +6,9 @@ import { LocaleContext } from "../context/contexts";
 import { LocalType } from "../types/locale";
 import contents from "../utils/contents";
 import { addNote } from "../utils/api/lib";
+import FormItem from "../components/form/FormItem";
+import FormLabel from "../components/form/FormLabel";
+import FormInput from "../components/form/FormInput";
 
 const AddNoteForm = () => {
   const [title, setTitle] = useState("");
@@ -49,27 +52,29 @@ const AddNoteForm = () => {
         onSubmit={submitHandler}
         className="mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3 dark:bg-dark_surface-900"
       >
-        <div className="grid">
-          <label htmlFor="title">{contents.addNote.form.title[locale]}</label>
-          <input
+        <FormItem>
+          <FormLabel htmlFor="title">
+            {contents.addNote.form.title[locale]}
+          </FormLabel>
+          <FormInput
             type="text"
-            className="rounded-lg bg-white p-2 text-lg dark:bg-dark_surface-700 dark:text-dark_purple-100"
-            onBlur={titleBlurHandler}
             name="title"
             id="title"
-            autoFocus
+            className="bg-white"
+            onBlur={titleBlurHandler}
+            required
           />
-        </div>
-        <div className="grid">
-          <label htmlFor="body">
-            {contents.addNote.form.description[locale]}
-          </label>
+        </FormItem>
+        <FormItem>
+          <FormLabel htmlFor="password">
+            {contents.login.form.password[locale]}
+          </FormLabel>
           <div
             className="rounded-lg bg-white p-2 text-lg text-slate-700 dark:bg-dark_surface-700 dark:text-dark_purple-100"
             onBlur={bodyBlurHandler}
             contentEditable
           ></div>
-        </div>
+        </FormItem>
         <button
           type="submit"
           className="ml-auto flex w-fit items-center gap-1 rounded-full bg-indigo-600 px-3 py-2 text-white hover:bg-indigo-700"
