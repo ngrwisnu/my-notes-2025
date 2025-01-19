@@ -1,11 +1,11 @@
 import { Plus } from "lucide-react";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import DOMPurify from "dompurify";
-import { addNote } from "../utils/notes";
 import { useNavigate } from "react-router";
 import { LocaleContext } from "../context/contexts";
 import { LocalType } from "../types/locale";
 import contents from "../utils/contents";
+import { addNote } from "../utils/api/lib";
 
 const AddNoteForm = () => {
   const [title, setTitle] = useState("");
@@ -25,7 +25,7 @@ const AddNoteForm = () => {
     setBody(purified);
   };
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
 
     const data = {
@@ -33,24 +33,27 @@ const AddNoteForm = () => {
       body,
     };
 
-    addNote(data);
-    navigate("/");
+    const result = await addNote(data);
+
+    if (!result.isError) {
+      navigate("/");
+    }
   };
 
   return (
-    <div className="dark:text-dark_purple-100 container">
+    <div className="container dark:text-dark_purple-100">
       <h1 className="mb-6 w-full text-center text-4xl font-semibold">
         {contents.addNote.headline[locale]}
       </h1>
       <form
         onSubmit={submitHandler}
-        className="dark:bg-dark_surface-900 mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3"
+        className="mx-auto grid w-full auto-rows-max gap-4 rounded-lg bg-slate-100 p-4 md:w-2/3 dark:bg-dark_surface-900"
       >
         <div className="grid">
           <label htmlFor="title">{contents.addNote.form.title[locale]}</label>
           <input
             type="text"
-            className="dark:bg-dark_surface-700 dark:text-dark_purple-100 rounded-lg bg-white p-2 text-lg"
+            className="rounded-lg bg-white p-2 text-lg dark:bg-dark_surface-700 dark:text-dark_purple-100"
             onBlur={titleBlurHandler}
             name="title"
             id="title"
@@ -62,7 +65,7 @@ const AddNoteForm = () => {
             {contents.addNote.form.description[locale]}
           </label>
           <div
-            className="dark:bg-dark_surface-700 dark:text-dark_purple-100 rounded-lg bg-white p-2 text-lg text-slate-700"
+            className="rounded-lg bg-white p-2 text-lg text-slate-700 dark:bg-dark_surface-700 dark:text-dark_purple-100"
             onBlur={bodyBlurHandler}
             contentEditable
           ></div>
