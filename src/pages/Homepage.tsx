@@ -1,22 +1,18 @@
-import {
-  archiveNote,
-  deleteNote,
-  getActiveNotes,
-  getNote,
-} from "../utils/notes";
-import { ChangeEvent, MouseEvent, useContext, useState } from "react";
+import { ChangeEvent, MouseEvent, useContext } from "react";
 import { useSearchParams } from "react-router";
-import { NoteObject } from "../types/note";
 import AddButtonFloat from "../components/AddButtonFloat";
 import { LocaleContext } from "../context/contexts";
 import { LocalType } from "../types/locale";
 import contents from "../utils/contents";
 import SearchField from "../components/SearchField";
 import NoteWrapper from "../components/note/NoteWrapper";
+import useCallAPI from "../hooks/useCallAPI";
+import { archiveNote, deleteNote, getActiveNotes } from "../utils/api/lib";
+import Loading from "../components/Loading";
 
 const Homepage = () => {
-  const [noteList, setNoteList] = useState<NoteObject[]>(getActiveNotes());
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data: noteList, loading, refetch } = useCallAPI(getActiveNotes);
 
   const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
@@ -26,28 +22,31 @@ const Homepage = () => {
     });
   };
 
-  const archiveHandler = (e: MouseEvent<HTMLElement>, id: string) => {
+  const archiveHandler = async (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
 
-    const note = getNote(id) as NoteObject;
+    const result = await archiveNote(id);
 
-    if (!note.archived) {
-      archiveNote(id);
+    if (!result.isError) {
+      refetch();
     }
-
-    setNoteList(getActiveNotes());
   };
 
-  const deleteHandler = (e: MouseEvent<HTMLElement>, id: string) => {
+  const deleteHandler = async (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
 
     const confirmStatus = confirm("Are you sure want to delete this note?");
 
-    if (confirmStatus) {
-      deleteNote(id);
-      setNoteList(getActiveNotes());
+    if (!confirmStatus) {
+      return;
+    }
+
+    const result = await deleteNote(id);
+
+    if (!result.isError) {
+      refetch();
     }
   };
 
@@ -59,13 +58,16 @@ const Homepage = () => {
         {contents.homepage.headline[locale]}
       </h1>
       <SearchField keywords={keywords} changeHandler={searchHandler} />
-      <NoteWrapper
-        keywords={keywords}
-        notes={noteList}
-        contents={contents.homepage}
-        archiveHandler={archiveHandler}
-        deleteHandler={deleteHandler}
-      />
+      {loading && <Loading />}
+      {!loading && (
+        <NoteWrapper
+          keywords={keywords}
+          notes={noteList || []}
+          contents={contents.homepage}
+          archiveHandler={archiveHandler}
+          deleteHandler={deleteHandler}
+        />
+      )}
       <AddButtonFloat />
     </div>
   );

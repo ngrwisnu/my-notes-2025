@@ -1,34 +1,41 @@
-import { useEffect, useState } from "react";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const useCallAPI = (
-  callback: (formData?: any) => Promise<{ isError: boolean; data: any }>,
-) => {
-  const [data, setData] = useState(null);
+import { useCallback, useEffect, useState } from "react";
+import { NoteObject } from "../types/note";
+
+type ResponseType = {
+  isError: boolean;
+  data?: NoteObject[];
+  message?: string;
+};
+
+const useCallAPI = (callback: () => Promise<ResponseType>) => {
+  const [data, setData] = useState<NoteObject[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await callback();
+  const fetchData = useCallback(async () => {
+    const result = await callback();
 
-      if (result.isError) {
-        setIsError(true);
-      }
+    if (result.isError) {
+      setIsError(true);
+    }
 
-      setData(result.data);
+    setTimeout(() => {
+      setData(result.data!);
       setLoading(false);
-    };
+    }, 500);
+  }, []);
 
+  useEffect(() => {
     fetchData();
 
     return () => {
       setLoading(true);
       setIsError(false);
     };
-  }, []);
+  }, [fetchData]);
 
-  return { data, loading, isError };
+  return { data, loading, isError, refetch: fetchData };
 };
 
 export default useCallAPI;

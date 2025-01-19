@@ -1,12 +1,12 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext } from "react";
 import { useSearchParams } from "react-router";
-import {
-  deleteNote,
-  getArchivedNotes,
-  getNote,
-  unarchiveNote,
-} from "../utils/notes";
-import { NoteObject } from "../types/note";
+// import {
+//   deleteNote,
+//   getArchivedNotes,
+//   getNote,
+//   unarchiveNote,
+// } from "../utils/notes";
+// import { NoteObject } from "../types/note";
 import { MouseEvent } from "react";
 import AddButtonFloat from "../components/AddButtonFloat";
 import { LocaleContext } from "../context/contexts";
@@ -14,10 +14,14 @@ import { LocalType } from "../types/locale";
 import contents from "../utils/contents";
 import SearchField from "../components/SearchField";
 import NoteWrapper from "../components/note/NoteWrapper";
+import useCallAPI from "../hooks/useCallAPI";
+import { deleteNote, getArchivedNotes, unarchiveNote } from "../utils/api/lib";
+import Loading from "../components/Loading";
 
 const Archive = () => {
-  const [noteList, setNoteList] = useState<NoteObject[]>(getArchivedNotes());
+  // const [noteList, setNoteList] = useState<NoteObject[]>(getArchivedNotes());
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data: noteList, loading, refetch } = useCallAPI(getArchivedNotes);
 
   const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
@@ -27,28 +31,31 @@ const Archive = () => {
     });
   };
 
-  const unArchiveNote = (e: MouseEvent<HTMLElement>, id: string) => {
+  const unArchiveNote = async (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
 
-    const note = getNote(id);
+    const result = await unarchiveNote(id);
 
-    if (note!.archived) {
-      unarchiveNote(id);
+    if (!result.isError) {
+      refetch();
     }
-
-    setNoteList(getArchivedNotes());
   };
 
-  const deleteHandler = (e: MouseEvent<HTMLElement>, id: string) => {
+  const deleteHandler = async (e: MouseEvent<HTMLElement>, id: string) => {
     e.stopPropagation();
     e.preventDefault();
 
     const confirmStatus = confirm("Are you sure want to delete this note?");
 
-    if (confirmStatus) {
-      deleteNote(id);
-      setNoteList(getArchivedNotes());
+    if (!confirmStatus) {
+      return;
+    }
+
+    const result = await deleteNote(id);
+
+    if (!result.isError) {
+      refetch();
     }
   };
 
@@ -60,13 +67,16 @@ const Archive = () => {
         {contents.archive.headline[locale]}
       </h1>
       <SearchField keywords={keywords} changeHandler={searchHandler} />
-      <NoteWrapper
-        keywords={keywords}
-        notes={noteList}
-        contents={contents.archive}
-        archiveHandler={unArchiveNote}
-        deleteHandler={deleteHandler}
-      />
+      {loading && <Loading />}
+      {!loading && (
+        <NoteWrapper
+          keywords={keywords}
+          notes={noteList || []}
+          contents={contents.archive}
+          archiveHandler={unArchiveNote}
+          deleteHandler={deleteHandler}
+        />
+      )}
       <AddButtonFloat />
     </div>
   );

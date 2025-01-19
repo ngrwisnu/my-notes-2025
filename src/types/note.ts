@@ -6,6 +6,7 @@ export interface NoteObject {
   body: string;
   createdAt: string;
   archived: boolean;
+  owner: string;
 }
 
 export interface NoteCardProps extends NoteObject {
