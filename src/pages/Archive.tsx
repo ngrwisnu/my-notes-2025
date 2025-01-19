@@ -1,12 +1,5 @@
 import { ChangeEvent, useContext } from "react";
 import { useSearchParams } from "react-router";
-// import {
-//   deleteNote,
-//   getArchivedNotes,
-//   getNote,
-//   unarchiveNote,
-// } from "../utils/notes";
-// import { NoteObject } from "../types/note";
 import { MouseEvent } from "react";
 import AddButtonFloat from "../components/AddButtonFloat";
 import { LocaleContext } from "../context/contexts";
@@ -17,9 +10,9 @@ import NoteWrapper from "../components/note/NoteWrapper";
 import useCallAPI from "../hooks/useCallAPI";
 import { deleteNote, getArchivedNotes, unarchiveNote } from "../utils/api/lib";
 import Loading from "../components/Loading";
+import { NoteObject } from "../types/note";
 
 const Archive = () => {
-  // const [noteList, setNoteList] = useState<NoteObject[]>(getArchivedNotes());
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: noteList, loading, refetch } = useCallAPI(getArchivedNotes);
 
@@ -71,7 +64,7 @@ const Archive = () => {
       {!loading && (
         <NoteWrapper
           keywords={keywords}
-          notes={noteList || []}
+          notes={(noteList as NoteObject[] | undefined) || []}
           contents={contents.archive}
           archiveHandler={unArchiveNote}
           deleteHandler={deleteHandler}

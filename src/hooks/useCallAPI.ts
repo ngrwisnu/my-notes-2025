@@ -1,15 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from "react";
-import { NoteObject } from "../types/note";
 
-type ResponseType = {
+type ResponseType<TCallback> = {
   isError: boolean;
-  data?: NoteObject[];
+  data?: TCallback;
   message?: string;
 };
 
-const useCallAPI = (callback: () => Promise<ResponseType>) => {
-  const [data, setData] = useState<NoteObject[] | null>(null);
+type CallAPIReturnInfo<TData> = {
+  data: TData | null;
+  loading: boolean;
+  isError: boolean;
+  refetch: () => void;
+};
+
+const useCallAPI = <T>(
+  callback: () => Promise<ResponseType<T>>,
+): CallAPIReturnInfo<T> => {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
