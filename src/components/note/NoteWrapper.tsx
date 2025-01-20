@@ -1,26 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MouseEvent, useContext } from "react";
+import { useContext } from "react";
 import { LocaleContext } from "../../context/contexts";
 import { findByKeyword } from "../../utils/notes";
 import { LocalType } from "../../types/locale";
 import NoteCard from "./NoteCard";
-import { NoteObject } from "../../types/note";
+// import { NoteObject } from "../../types/note";
+import PropTypes from "prop-types";
 
-interface NoteWrapperProps {
-  notes: NoteObject[];
-  contents: { [key: string]: any };
-  keywords?: string;
-  archiveHandler: (e: MouseEvent<HTMLElement>, id: string) => void;
-  deleteHandler: (e: MouseEvent<HTMLElement>, id: string) => void;
-}
+// interface NoteWrapperProps {
+//   notes: NoteObject[];
+//   contents: { [key: string]: any };
+//   keywords?: string;
+//   archiveHandler: (e: MouseEvent<HTMLElement>, id: string) => void;
+//   deleteHandler: (e: MouseEvent<HTMLElement>, id: string) => void;
+// }
 
-const NoteWrapper = ({
-  notes,
-  contents,
-  keywords = "",
-  archiveHandler,
-  deleteHandler,
-}: NoteWrapperProps) => {
+// @ts-expect-error used of prop-types
+const NoteWrapper = (props) => {
+  const {
+    notes,
+    contents,
+    keywords = "",
+    archiveHandler,
+    deleteHandler,
+  } = props;
+
   const { locale }: { locale: LocalType } = useContext(LocaleContext);
 
   const searchedNotes = findByKeyword(notes, keywords);
@@ -41,6 +45,14 @@ const NoteWrapper = ({
       ))}
     </section>
   );
+};
+
+NoteWrapper.propTypes = {
+  notes: PropTypes.array.isRequired,
+  contents: PropTypes.object.isRequired,
+  keywords: PropTypes.string,
+  archiveHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
 };
 
 export default NoteWrapper;

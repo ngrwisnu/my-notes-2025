@@ -1,8 +1,10 @@
-import { ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 import { LocaleContext, ThemeContext } from "./contexts";
 import useContextValue from "../hooks/useContextValue";
+import PropTypes from "prop-types";
 
-const ContextProviders = ({ children }: { children: ReactNode }) => {
+// @ts-expect-error used of prop-types
+const ContextProviders = ({ children }) => {
   const themeCallback = useCallback((theme: string) => {
     document.documentElement.setAttribute("class", theme);
   }, []);
@@ -24,6 +26,10 @@ const ContextProviders = ({ children }: { children: ReactNode }) => {
       </LocaleContext.Provider>
     </ThemeContext.Provider>
   );
+};
+
+ContextProviders.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default ContextProviders;

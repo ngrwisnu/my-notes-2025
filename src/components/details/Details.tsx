@@ -18,7 +18,7 @@ const DetailDescription = ({ text }) => {
 };
 
 DetailWrapper.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 DetailTitle.propTypes = {

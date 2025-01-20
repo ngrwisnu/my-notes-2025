@@ -1,11 +1,18 @@
-import { CustomLabelProps } from "./types";
+import PropTypes from "prop-types";
+// import { CustomLabelProps } from "./types";
 
-const FormLabel: CustomLabelProps = ({ className, children, ...props }) => {
+// @ts-expect-error used of prop-types
+const FormLabel = ({ className = "", children, ...props }) => {
   return (
     <label className={className} {...props}>
       {children}
     </label>
   );
+};
+
+FormLabel.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
 
 export default FormLabel;

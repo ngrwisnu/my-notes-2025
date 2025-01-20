@@ -1,8 +1,10 @@
-import { ReactNode, useContext } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../context/contexts";
 import LanguageToggler from "../components/navbar/LanguageToggler";
+import PropTypes from "prop-types";
 
-const AuthPageLayout = ({ children }: { children: ReactNode }) => {
+// @ts-expect-error used of prop-types
+const AuthPageLayout = ({ children }) => {
   const { theme } = useContext(ThemeContext);
 
   return (
@@ -26,6 +28,10 @@ const AuthPageLayout = ({ children }: { children: ReactNode }) => {
       </div>
     </>
   );
+};
+
+AuthPageLayout.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AuthPageLayout;

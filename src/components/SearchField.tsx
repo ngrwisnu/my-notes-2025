@@ -1,14 +1,16 @@
 import { Search } from "lucide-react";
-import { ChangeEvent } from "react";
+import PropTypes from "prop-types";
+// import { ChangeEvent } from "react";
 
-interface SearchFieldProps {
-  keywords: string;
-  changeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+// interface SearchFieldProps {
+//   keywords: string;
+//   changeHandler: (e: ChangeEvent<HTMLInputElement>) => void;
+// }
 
-const SearchField = ({ keywords, changeHandler }: SearchFieldProps) => {
+// @ts-expect-error used of prop-types
+const SearchField = ({ keywords, changeHandler }) => {
   return (
-    <div className="text-dark_purple-900 dark:bg-dark_surface-700 dark:text-dark_purple-100 mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4">
+    <div className="mb-5 flex items-center overflow-hidden rounded-full bg-slate-100 pl-4 text-dark_purple-900 dark:bg-dark_surface-700 dark:text-dark_purple-100">
       <Search size={20} />
       <input
         type="text"
@@ -19,6 +21,11 @@ const SearchField = ({ keywords, changeHandler }: SearchFieldProps) => {
       />
     </div>
   );
+};
+
+SearchField.propTypes = {
+  keywords: PropTypes.string.isRequired,
+  changeHandler: PropTypes.func.isRequired,
 };
 
 export default SearchField;
